@@ -1,0 +1,45 @@
+{% extends "manager/layout.html" %}
+{% block title %}
+Detail view Page
+{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{% url 'manager:index' %}">list로 이동</a>
+    </div>
+</nav>
+
+    <table class="table table-striped">
+        <thead>
+           <tr>
+                <td><B>작성자</B></td>
+                <td><B>TC ID</B></td>
+                <td><B>Script File</B></td>
+                <td><B>설명</B></td>
+                <td><B>날짜</B></td>
+            </tr>
+        </thead>
+        <tbody>
+          {% for script in scripts %}
+            <tr>
+                <td>{{ script.author }}</td>
+                <td> <a href="{{ script.id }}"> {{ script.tcid }} </a> </td>
+                <td> <a href="{{ script.scrfile.url }}"> {{ script.scrfile.name }} </a> </td>
+                <td> {{ script.detail }}</td>
+                <td>{{ script.now|date:"y/m/d H:m:s" }}</td>
+            {% endfor %}
+        </tbody>
+     <tr> {{ forms.as_table }}
+       <form action="/manager/detailpage/{{script.id}}" method="post" enctype="multipart/form-data">
+
+                    <input type="submit" value="저장"/>
+                    {% csrf_token %}
+
+       </form>
+      </tr>
+
+
+    </table>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "manager/layout.html" %}
+{% block title %}
+Script manager
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <center><h1>Script Manager</h1></center>
+
+    <table class="table table-striped">
+        <thead>
+            <form action="{% url "manager:index" %}" method="post" enctype="multipart/form-data">
+                <tr>
+                    <td><B>작성자:{{ forms.author }}</B></td>
+                    <td><B>TC ID:{{ forms.tcid }}</B></td>
+                    <td><B>Script 첨부:{{ forms.scrfile }}</B></td>
+                    <td><B>{{ forms.detail }}</B></td>
+                    <td><input type="submit" value="저장"/></td>
+                    {% csrf_token %}
+                </tr>
+            </form>
+            <tr>
+                <td><B>작성자</B></td>
+                <td><B>TC ID</B></td>
+                <td><B>Script File</B></td>
+                <td><B>설명</B></td>
+                <td><B>날짜</B></td>
+            </tr>
+        </thead>
+        <tbody>
+          {% for script in scripts %}
+            <tr>
+                <td>{{ script.author }}</td>
+                <td> <a href="{{ script.id }}"> {{ script.tcid }} </a> </td>
+                <td> <a href="{{ script.scrfile.url }}"> {{ script.scrfile.name }} </a> </td>
+                <td> {{ script.detail }}</td>
+                <td>{{ script.now|date:"y/m/d H:m:s" }}</td>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}
