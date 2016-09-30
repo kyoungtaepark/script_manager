@@ -6,7 +6,7 @@ Script manager
 {% block content %}
 <div class="container">
     <center><h1>Script Manager</h1></center>
-
+    {{totalCnt}}
     <table class="table table-striped table-hover">
         <thead>
             <form action="{% url "manager:index" %}" method="post" enctype="multipart/form-data">
@@ -31,7 +31,7 @@ Script manager
           {% for script in scripts %}
             <tr>
                 <td>{{ script.author }}</td>
-                <td> <a href="/manager/detailview/{{ script.id }}"> {{ script.tcid }} </a> </td>
+                <td> <a href="/manager/{{ script.id }}"> {{ script.tcid }} </a> </td>
                 <td> <a href="{{ script.scrfile.url }}"> {{ script.scrfile.name }} </a> </td>
                 <td> {{ script.detail }}</td>
                 <td>{{ script.now|date:"y/m/d H:i:s" }}</td>

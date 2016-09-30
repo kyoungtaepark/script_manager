@@ -2,14 +2,14 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import ScriptlistModel, CommentModel
-from .forms import ScriptlistForm, CommentForm
+from .models import ScriptlistModel
+from .forms import ScriptlistForm
 
 def index(request):
+    template_name = 'manager/index.html'
 
     if request.method == 'POST':
         forms = ScriptlistForm(request.POST, request.FILES)
-
         if forms.is_valid():
             newpost = ScriptlistModel(
                 author=forms.cleaned_data['author'],
@@ -18,45 +18,25 @@ def index(request):
                 scrfile=request.FILES['scrfile']
             )
             newpost.save()
-
             return HttpResponseRedirect(reverse('manager:index'))
     else:
-
         forms = ScriptlistForm()
-
     scripts = ScriptlistModel.objects.order_by('-now')
+    totalCnt = ScriptlistModel.objects.all().count()
 
-    return render(request, 'manager/index.html',{'scripts':scripts, 'forms' : forms})
-
-
+    return render(request, template_name, {'scripts':scripts, 'forms' : forms, 'totalCnt': totalCnt})
 
 def detail(request, id):
+    template_name = 'manager/view.html'
+
+    form = ScriptlistForm()
 
     scripts = ScriptlistModel.objects.get(id=id)
-
-    if request.method == 'POST':
-        commentform = CommentForm(request.POST)
-
-        if commentform.is_valid():
-            newcomment = CommentModel(
-                script=ScriptlistModel.objects.get(id=id),
-                writer=commentform.cleaned_data['writer'],
-                comments=commentform.cleaned_data['comments']
-            )
-            newcomment.save()
-            return
-    else:
-
-        commentform = CommentForm()
-
-    comments = CommentModel.objects.order_by('-time')
-
-    return render(request, 'manager/view.html', {'scripts':scripts,'commentform':commentform, 'comments': comments})
-
+    return render(request, template_name, {'scripts':scripts, 'form':form })
 
 def modify(request, id):
 
-    return render(request, 'manager/modify.html', {'id': id})
+    return render(request, 'manager/modify.html')
 
 def delete(request, id):
 
@@ -65,3 +45,8 @@ def delete(request, id):
         posts.delete()
         return redirect('manager:detail', id)
     return render(request, 'manager/view.html', {'posts':posts})
+
+def confirm(request, id):
+
+    posts =ScriptlistModel.objects.get(id=id)
+    return render(request, 'manager/confirm.html')

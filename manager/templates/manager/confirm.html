@@ -1,9 +1,10 @@
 {% extends "layout.html" %}
 {% block title %}
-Detail view Page
+Delete Confirm
 {% endblock %}
 
 {% block content %}
+
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -20,26 +21,29 @@ Detail view Page
         </thead>
 
         <tbody>
-          <tr><td width="250">작성자</td>      <td>{{ form.author }}</td></tr>
-          <tr><td width="250">날짜</td>        <td>{{ script.now|date:"y/m/d H:i:s" }}</td></tr>
-          <tr><td width="250">TC ID</td>       <td>{{ form.tcid }}</td></tr>
-          <tr><td width="250">Script File</td> <td>{{ form.scrfile }}</td></tr>
-          <tr><td width="250">설명</td>        <td>{{ form.detail }}</td></tr>
+          <tr><td width="250">작성자</td>      <td>{{ scripts.author }}</td></tr>
+          <tr><td width="250">날짜</td>        <td>{{ scripts.author }}</td></tr>
+          <tr><td width="250">TC ID</td>       <td>{{ scripts.author }}</td></tr>
+          <tr><td width="250">Script File</td> <td>{{ scripts.author }}</td></tr>
+          <tr><td width="250">설명</td>        <td>{{ scripts.author }}</td></tr>
         </tbody>
 
         <tfoot>
-            <form action="/manager/{{scripts.id}}/modify/" method="post" enctype="multipart/form-data">
+            <form action="/manager/detailview/{{scripts.id}}/" method="post" enctype="multipart/form-data">
             {% csrf_token %}
                 <tr>
                     <td>
-                        <a href="#" class="btn btn-danger" role="button">Delete</a>
+                        <button type="button">삭제</button>
                     </td>
                     <td align="right">
-                        <a href="#" class="btn btn-primary" role="button">Save</a>
+                        </br>
+                        해당 게시물을 삭제하시겠습니까?
+                        <input type="submit" value="확인"/>
                     </td>
                 </tr>
             </form>
         </tfoot>
     </table>
 </div>
+
 {% endblock %}

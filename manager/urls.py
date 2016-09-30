@@ -5,7 +5,8 @@ from . import views
 app_name = 'manager'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^detailview/(?P<id>.+)/$', views.detail, name='detail'),
-    url(r'^modify/(?P<id>./d+)/$', views.modify, name='modify'),
-    url(r'^delete/(?P<id>./d+)/$', views.delete, name='delete'),
+    url(r'^(?P<id>\d+)/$', views.detail, name='detail'),
+    url(r'^(?P<id>\d+)/modify/$', views.modify, name='modify'),
+    url(r'^(?P<id>\d+)/confirm/$', views.confirm, name='confirm'),
+    url(r'^(?P<id>\d+)/delete/$', views.delete, name='delete'),
 ]
