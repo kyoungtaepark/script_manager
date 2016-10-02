@@ -7,7 +7,7 @@ Detail view Page
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="{% url 'manager:index' %}">list로 이동</a>
+      <a class="navbar-brand" href="{% url 'manager:index' %}">list</a>
     </div>
 </nav>
 <div class="container">
@@ -20,11 +20,11 @@ Detail view Page
         </thead>
 
         <tbody>
-          <tr><td width="250">작성자</td>      <td>{{ form.author }}</td></tr>
-          <tr><td width="250">날짜</td>        <td>{{ script.now|date:"y/m/d H:i:s" }}</td></tr>
-          <tr><td width="250">TC ID</td>       <td>{{ form.tcid }}</td></tr>
-          <tr><td width="250">Script File</td> <td>{{ form.scrfile }}</td></tr>
-          <tr><td width="250">설명</td>        <td>{{ form.detail }}</td></tr>
+          <tr><td width="250">작성자</td>      <td>{{ scripts.author }}</td></tr>
+          <tr><td width="250">날짜</td>        <td>{{ scripts.now|date:"y/m/d H:i:s" }}</td></tr>
+          <tr><td width="250">TC ID</td>       <td>{{ scripts.tcid }}</td></tr>
+          <tr><td width="250">Script File</td> <td>{{ scripts.scrfile }}</td></tr>
+          <tr><td width="250">설명</td>        <td>{{ scripts.detail }}</td></tr>
         </tbody>
 
         <tfoot>
@@ -32,10 +32,11 @@ Detail view Page
             {% csrf_token %}
                 <tr>
                     <td>
-                        <a href="#" class="btn btn-danger" role="button">Delete</a>
+                        <a href="{% url 'manager:modify' scripts.id %}" class="btn btn-warning" role="button">Modify</a>
+                        <a href="{% url 'manager:del_confirm' scripts.id %}" class="btn btn-danger" role="button">Delete</a>
                     </td>
                     <td align="right">
-                        <a href="#" class="btn btn-primary" role="button">Save</a>
+                        <a href="{% url 'manager:index' %}" class="btn btn-default">list</a>
                     </td>
                 </tr>
             </form>

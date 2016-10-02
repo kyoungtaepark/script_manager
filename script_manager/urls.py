@@ -21,8 +21,12 @@ from django.conf.urls.static import static
 from django.views.generic import RedirectView
 from django.conf import settings
 
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^manager/', include('manager.urls')),
     url(r'^$', RedirectView.as_view(url='/manager', permanent=True)),
+    #url(r'^rest-api/',include('rest_framework.urls')),
+    #url(r'^rest-swagger/', include('rest_framework_swagger.urls')),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

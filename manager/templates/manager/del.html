@@ -1,14 +1,13 @@
 {% extends "layout.html" %}
 {% block title %}
-Delete Confirm
+Detail view Page
 {% endblock %}
 
 {% block content %}
-
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="{% url 'manager:index' %}">list로 이동</a>
+      <a class="navbar-brand" href="{% url 'manager:index' %}">list</a>
     </div>
 </nav>
 <div class="container">
@@ -22,28 +21,28 @@ Delete Confirm
 
         <tbody>
           <tr><td width="250">작성자</td>      <td>{{ scripts.author }}</td></tr>
-          <tr><td width="250">날짜</td>        <td>{{ scripts.author }}</td></tr>
-          <tr><td width="250">TC ID</td>       <td>{{ scripts.author }}</td></tr>
-          <tr><td width="250">Script File</td> <td>{{ scripts.author }}</td></tr>
-          <tr><td width="250">설명</td>        <td>{{ scripts.author }}</td></tr>
+          <tr><td width="250">날짜</td>        <td>{{ scripts.now|date:"y/m/d H:i:s" }}</td></tr>
+          <tr><td width="250">TC ID</td>       <td>{{ scripts.tcid }}</td></tr>
+          <tr><td width="250">Script File</td> <td>{{ scripts.scrfile }}</td></tr>
+          <tr><td width="250">설명</td>        <td>{{ scripts.detail }}</td></tr>
+
         </tbody>
 
         <tfoot>
-            <form action="/manager/detailview/{{scripts.id}}/" method="post" enctype="multipart/form-data">
+
             {% csrf_token %}
                 <tr>
                     <td>
-                        <button type="button">삭제</button>
+
                     </td>
                     <td align="right">
-                        </br>
-                        해당 게시물을 삭제하시겠습니까?
-                        <input type="submit" value="확인"/>
+                        <p class="lead">해당 게시물을 삭제하시겠습니까?</p>
+                        <a href="{% url 'manager:delete' scripts.id %}" class="btn btn-danger" role="button">Delete</a>
+                        <a href="{% url 'manager:index' %}" class="btn btn-default">취소</a>
                     </td>
                 </tr>
-            </form>
+
         </tfoot>
     </table>
 </div>
-
 {% endblock %}

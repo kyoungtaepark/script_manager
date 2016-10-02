@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block title %}
+Detail view Page
+{% endblock %}
+
+{% block content %}
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{% url 'manager:index' %}">list</a>
+    </div>
+</nav>
+<div class="container">
+    <table class="table table-striped table-hover">
+        <thead>
+           <tr>
+                <td><h3>분류</h3></td>
+                <td><h3>내용</h3></td>
+           </tr>
+        </thead>
+        <form action="/manager/{{scripts.id}}/modify/" method="post" enctype="multipart/form-data">{% csrf_token %}
+        <tbody>
+          <tr><td width="250">작성자</td>      <td>{{ form.author}}</td></tr>
+          <tr><td width="250">날짜</td>        <td>{{ posts.now|date:"y/m/d H:i:s" }}</td></tr>
+          <tr><td width="250">TC ID</td>       <td>{{ form.tcid }}</td></tr>
+          <tr><td width="250">Script File</td> <td>{{ form.scrfile }}</td></tr>
+          <tr><td width="250">설명</td>        <td>{{ form.detail }}</td></tr>
+        </tbody>
+
+        <tfoot>
+
+                <tr>
+                    <td>
+                        <a href="{% url 'manager:del_confirm' posts.id %}" class="btn btn-danger" role="button">Delete</a>
+                    </td>
+                    <td align="right">
+                        <a href="{% url 'manager:modify' posts.id %}" class="btn btn-primary" role="button">Save</a>
+                    </td>
+                </tr>
+        </tfoot>
+            </form>
+    </table>
+</div>
+{% endblock %}

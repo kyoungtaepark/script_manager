@@ -5,6 +5,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import ScriptlistModel
 from .forms import ScriptlistForm
 
+# -------------------------------------------------------------
 def index(request):
     template_name = 'manager/index.html'
 
@@ -15,16 +16,22 @@ def index(request):
                 author=forms.cleaned_data['author'],
                 tcid=forms.cleaned_data['tcid'],
                 detail=forms.cleaned_data['detail'],
-                scrfile=request.FILES['scrfile']
+                scrfile=request.FILES['scrfile'],
             )
             newpost.save()
             return HttpResponseRedirect(reverse('manager:index'))
     else:
         forms = ScriptlistForm()
-    scripts = ScriptlistModel.objects.order_by('-now')
+    scripts = ScriptlistModel.objects.order_by('-now')#[0:5]
     totalCnt = ScriptlistModel.objects.all().count()
 
-    return render(request, template_name, {'scripts':scripts, 'forms' : forms, 'totalCnt': totalCnt})
+    return render(request, template_name, {
+                                        'scripts':scripts,
+                                        'forms':forms,
+                                        'totalCnt':totalCnt
+    })
+
+# -------------------------------------------------------------
 
 def detail(request, id):
     template_name = 'manager/view.html'
@@ -32,11 +39,12 @@ def detail(request, id):
     form = ScriptlistForm()
 
     scripts = ScriptlistModel.objects.get(id=id)
-    return render(request, template_name, {'scripts':scripts, 'form':form })
+    return render(request, template_name, {
+                                        'scripts':scripts,
+                                        'form':form
+    })
 
-def modify(request, id):
-
-    return render(request, 'manager/modify.html')
+# -------------------------------------------------------------
 
 def delete(request, id):
 
@@ -44,9 +52,32 @@ def delete(request, id):
     if request.method == 'POST':
         posts.delete()
         return redirect('manager:detail', id)
-    return render(request, 'manager/view.html', {'posts':posts})
+    return render(request, 'manager/view.html', {'posts':posts} )
 
-def confirm(request, id):
+# -------------------------------------------------------------
+
+def del_confirm(request, id):
+
+    scripts =ScriptlistModel.objects.get(id=id)
+    return render(request, 'manager/del.html', {'scripts':scripts})
+
+# -------------------------------------------------------------
+
+def modify(request, id):
 
     posts =ScriptlistModel.objects.get(id=id)
-    return render(request, 'manager/confirm.html')
+    if request.method == 'POST':
+        form = ScriptlistForm(request.POST, instance=posts)
+        if form.is_valid():
+            modpost = posts(
+                author=forms.cleaned_data['author'],
+                tcid=forms.cleaned_data['tcid'],
+                detail=forms.cleaned_data['detail'],
+                scrfile=request.FILES['scrfile']
+            )
+            modpost.save()
+            return HttpResponseRedirect(reverse('manager:index'))
+    else:
+        form = ScriptlistForm(initial={'author':posts.author, 'tcid':posts.tcid, 'scrfile':posts.scrfile, 'detail':posts.detail, 'now':posts.now})
+
+    return render(request, 'manager/modify.html', {'form':form, 'posts':posts})
