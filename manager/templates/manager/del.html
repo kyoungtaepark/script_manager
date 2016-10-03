@@ -20,11 +20,11 @@ Detail view Page
         </thead>
 
         <tbody>
-          <tr><td width="250">작성자</td>      <td>{{ scripts.author }}</td></tr>
-          <tr><td width="250">날짜</td>        <td>{{ scripts.now|date:"y/m/d H:i:s" }}</td></tr>
-          <tr><td width="250">TC ID</td>       <td>{{ scripts.tcid }}</td></tr>
-          <tr><td width="250">Script File</td> <td>{{ scripts.scrfile }}</td></tr>
-          <tr><td width="250">설명</td>        <td>{{ scripts.detail }}</td></tr>
+          <tr><td width="250">작성자</td>      <td>{{ posts.author }}</td></tr>
+          <tr><td width="250">날짜</td>        <td>{{ posts.now|date:"y/m/d H:i:s" }}</td></tr>
+          <tr><td width="250">TC ID</td>       <td>{{ posts.tcid }}</td></tr>
+          <tr><td width="250">Script File</td> <td>{{ posts.scrfile }}</td></tr>
+          <tr><td width="250">설명</td>        <td>{{ posts.detail }}</td></tr>
 
         </tbody>
 
@@ -37,8 +37,9 @@ Detail view Page
                     </td>
                     <td align="right">
                         <p class="lead">해당 게시물을 삭제하시겠습니까?</p>
-                        <a href="{% url 'manager:delete' scripts.id %}" class="btn btn-danger" role="button">Delete</a>
-                        <a href="{% url 'manager:index' %}" class="btn btn-default">취소</a>
+                        <a href="{% url 'manager:del_confirm' posts.id %}" class="btn btn-danger" role="button">Delete</a>
+                        <button class="btn btn-default" onclick="goBack()">취소</button>
+
                     </td>
                 </tr>
 

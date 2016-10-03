@@ -49,25 +49,34 @@ def detail(request, id):
 def delete(request, id):
 
     posts = ScriptlistModel.objects.get(id=id)
-    if request.method == 'POST':
-        posts.delete()
-        return redirect('manager:detail', id)
-    return render(request, 'manager/view.html', {'posts':posts} )
+
+    return render(request, 'manager/del.html', {'posts':posts} )
 
 # -------------------------------------------------------------
 
 def del_confirm(request, id):
-
-    scripts =ScriptlistModel.objects.get(id=id)
-    return render(request, 'manager/del.html', {'scripts':scripts})
+    try:
+        scripts = ScriptlistModel.objects.get(id=id)
+        scripts.delete()
+    except:
+        raise Http404('Do not delete!')
+    return HttpResponseRedirect(reverse('manager:index'))
 
 # -------------------------------------------------------------
 
 def modify(request, id):
-
-    posts =ScriptlistModel.objects.get(id=id)
+    print (request)
     if request.method == 'POST':
-        form = ScriptlistForm(request.POST, instance=posts)
+        #form = ScriptlistForm(request.POST, request.FILES)
+
+        ScriptlistModel.objects.filter(id=id).update(
+            author=forms.cleaned_data['author'],
+            tcid=forms.cleaned_data['tcid'],
+            detail=forms.cleaned_data['detail'],
+            scrfile=request.FILES['scrfile']
+        )
+
+        '''
         if form.is_valid():
             modpost = posts(
                 author=forms.cleaned_data['author'],
@@ -75,9 +84,17 @@ def modify(request, id):
                 detail=forms.cleaned_data['detail'],
                 scrfile=request.FILES['scrfile']
             )
-            modpost.save()
-            return HttpResponseRedirect(reverse('manager:index'))
+            modpost.update()
+        '''
+        return HttpResponseRedirect('/manager/detail/')
     else:
-        form = ScriptlistForm(initial={'author':posts.author, 'tcid':posts.tcid, 'scrfile':posts.scrfile, 'detail':posts.detail, 'now':posts.now})
-
+        posts = ScriptlistModel.objects.get(id=id)
+        form = ScriptlistForm(
+            initial={
+                'author':posts.author,
+                'tcid':posts.tcid,
+                'scrfile':posts.scrfile,
+                'detail':posts.detail,
+                'now':posts.now}
+        )
     return render(request, 'manager/modify.html', {'form':form, 'posts':posts})

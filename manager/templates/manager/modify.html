@@ -18,7 +18,8 @@ Detail view Page
                 <td><h3>내용</h3></td>
            </tr>
         </thead>
-        <form action="/manager/{{scripts.id}}/modify/" method="post" enctype="multipart/form-data">{% csrf_token %}
+         <form action="{% url "manager:detail" posts.id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
         <tbody>
           <tr><td width="250">작성자</td>      <td>{{ form.author}}</td></tr>
           <tr><td width="250">날짜</td>        <td>{{ posts.now|date:"y/m/d H:i:s" }}</td></tr>
@@ -31,10 +32,11 @@ Detail view Page
 
                 <tr>
                     <td>
-                        <a href="{% url 'manager:del_confirm' posts.id %}" class="btn btn-danger" role="button">Delete</a>
+                        <a href="{% url 'manager:delete' posts.id %}" class="btn btn-danger" role="button">Delete</a>
                     </td>
                     <td align="right">
-                        <a href="{% url 'manager:modify' posts.id %}" class="btn btn-primary" role="button">Save</a>
+                        <input type="submit" class="btn btn-primary" value="save"/>
+                        <button class="btn btn-default" onclick="goBack()">취소</button>
                     </td>
                 </tr>
         </tfoot>

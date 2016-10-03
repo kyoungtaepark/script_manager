@@ -33,7 +33,7 @@ Detail view Page
                 <tr>
                     <td>
                         <a href="{% url 'manager:modify' scripts.id %}" class="btn btn-warning" role="button">Modify</a>
-                        <a href="{% url 'manager:del_confirm' scripts.id %}" class="btn btn-danger" role="button">Delete</a>
+                        <a href="{% url 'manager:delete' scripts.id %}" class="btn btn-danger" role="button">Delete</a>
                     </td>
                     <td align="right">
                         <a href="{% url 'manager:index' %}" class="btn btn-default">list</a>
