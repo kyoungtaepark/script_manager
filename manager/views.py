@@ -65,30 +65,25 @@ def del_confirm(request, id):
 # -------------------------------------------------------------
 
 def modify(request, id):
+
+    posts = ScriptlistModel.objects.get(id=id)
+
     print (request)
     if request.method == 'POST':
-        #form = ScriptlistForm(request.POST, request.FILES)
+        form = ScriptlistForm(request.POST, request.FILES)
 
-        ScriptlistModel.objects.filter(id=id).update(
-            author=forms.cleaned_data['author'],
-            tcid=forms.cleaned_data['tcid'],
-            detail=forms.cleaned_data['detail'],
-            scrfile=request.FILES['scrfile']
-        )
-
-        '''
         if form.is_valid():
             modpost = posts(
-                author=forms.cleaned_data['author'],
-                tcid=forms.cleaned_data['tcid'],
-                detail=forms.cleaned_data['detail'],
+                author=form.cleaned_data['author'],
+                tcid=form.cleaned_data['tcid'],
+                detail=form.cleaned_data['detail'],
                 scrfile=request.FILES['scrfile']
             )
-            modpost.update()
-        '''
-        return HttpResponseRedirect('/manager/detail/')
+            modpost.save()
+            return HttpResponseRedirect('/manager/detail/')
+
     else:
-        posts = ScriptlistModel.objects.get(id=id)
+
         form = ScriptlistForm(
             initial={
                 'author':posts.author,
