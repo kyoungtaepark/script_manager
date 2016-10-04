@@ -130,5 +130,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Script file's path
-MEDIA_ROOT = os.path.join(BASE_DIR, 'scripts')
-MEDIA_URL = '/scripts/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
