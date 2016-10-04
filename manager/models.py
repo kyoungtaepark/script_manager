@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 
 # Create your models here.
-class ScriptlistModel(models.Model):
+class Document(models.Model):
     author = models.CharField(max_length=30)
     tcid = models.CharField(max_length=30)
     docfile = models.FileField(upload_to='documents/%Y/%m/%d')
@@ -11,4 +11,4 @@ class ScriptlistModel(models.Model):
     now = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.scrfile.name
+        return self.docfile

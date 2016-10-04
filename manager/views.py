@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import ScriptlistModel
+from .models import Document
 from .forms import ScriptlistForm
 
 # -------------------------------------------------------------
@@ -12,7 +12,7 @@ def index(request):
     if request.method == 'POST':
         forms = ScriptlistForm(request.POST, request.FILES)
         if forms.is_valid():
-            newpost = ScriptlistModel(
+            newpost = Document(
                 author=forms.cleaned_data['author'],
                 tcid=forms.cleaned_data['tcid'],
                 detail=forms.cleaned_data['detail'],
@@ -22,8 +22,8 @@ def index(request):
             return HttpResponseRedirect(reverse('manager:index'))
     else:
         forms = ScriptlistForm()
-    scripts = ScriptlistModel.objects.order_by('-now')#[0:5]
-    totalCnt = ScriptlistModel.objects.all().count()
+    scripts = Document.objects.order_by('-now')#[0:5]
+    totalCnt = Document.objects.all().count()
 
     return render(request, template_name, {
                                         'scripts':scripts,
@@ -38,7 +38,7 @@ def detail(request, id):
 
     form = ScriptlistForm()
 
-    scripts = ScriptlistModel.objects.get(id=id)
+    scripts = Document.objects.get(id=id)
     return render(request, template_name, {
                                         'scripts':scripts,
                                         'form':form
@@ -48,7 +48,7 @@ def detail(request, id):
 
 def delete(request, id):
 
-    posts = ScriptlistModel.objects.get(id=id)
+    posts = Document.objects.get(id=id)
 
     return render(request, 'manager/del.html', {'posts':posts} )
 
@@ -56,7 +56,7 @@ def delete(request, id):
 
 def del_confirm(request, id):
     try:
-        scripts = ScriptlistModel.objects.get(id=id)
+        scripts = Document.objects.get(id=id)
         scripts.delete()
     except:
         raise Http404('Do not delete!')
@@ -66,7 +66,7 @@ def del_confirm(request, id):
 
 def modify(request, id):
 
-    posts = ScriptlistModel.objects.get(id=id)
+    posts = Document.objects.get(id=id)
 
     print (request)
     if request.method == 'POST':
