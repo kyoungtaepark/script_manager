@@ -16,7 +16,7 @@ def index(request):
                 author=forms.cleaned_data['author'],
                 tcid=forms.cleaned_data['tcid'],
                 detail=forms.cleaned_data['detail'],
-                scrfile=request.FILES['scrfile'],
+                docfile=request.FILES['docfile'],
             )
             newpost.save()
             return HttpResponseRedirect(reverse('manager:index'))
@@ -77,7 +77,7 @@ def modify(request, id):
                 author=form.cleaned_data['author'],
                 tcid=form.cleaned_data['tcid'],
                 detail=form.cleaned_data['detail'],
-                scrfile=request.FILES['scrfile']
+                docfile=request.FILES['docfile']
             )
             modpost.save()
             return HttpResponseRedirect('/manager/detail/')
@@ -88,7 +88,7 @@ def modify(request, id):
             initial={
                 'author':posts.author,
                 'tcid':posts.tcid,
-                'scrfile':posts.scrfile,
+                'docfile':posts.docfile,
                 'detail':posts.detail,
                 'now':posts.now}
         )

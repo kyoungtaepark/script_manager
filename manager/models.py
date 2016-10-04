@@ -6,7 +6,7 @@ from django.db import models
 class ScriptlistModel(models.Model):
     author = models.CharField(max_length=30)
     tcid = models.CharField(max_length=30)
-    scrfile = models.FileField(upload_to='documents/%Y/%m/%d')
+    docfile = models.FileField(upload_to='documents/%Y/%m/%d')
     detail = models.TextField()
     now = models.DateTimeField(auto_now_add=True)
 
