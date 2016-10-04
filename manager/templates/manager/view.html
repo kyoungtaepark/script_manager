@@ -23,7 +23,7 @@ Detail view Page
           <tr><td width="250">작성자</td>      <td>{{ scripts.author }}</td></tr>
           <tr><td width="250">날짜</td>        <td>{{ scripts.now|date:"y/m/d H:i:s" }}</td></tr>
           <tr><td width="250">TC ID</td>       <td>{{ scripts.tcid }}</td></tr>
-          <tr><td width="250">Script File</td> <td><a href="{{ scripts.docfile.url }}"> scripts.docfile }}</a></td></tr>
+          <tr><td width="250">Script File</td> <td><a href="{{ scripts.docfile.url }}"> {{scripts.docfile }}</a></td></tr>
           <tr><td width="250">설명</td>        <td>{{ scripts.detail }}</td></tr>
         </tbody>
 
